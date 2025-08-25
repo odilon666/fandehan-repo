@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
 });
 
 // Ajouter le token JWT à chaque requête
@@ -17,7 +17,7 @@ API.interceptors.response.use(
   error => {
     if (error.response?.status === 401) {
       localStorage.removeItem('token'); // logout si token invalide
-      window.location.href = '/login';
+      window.location.href = '/login-test';
     }
     return Promise.reject(error);
   }

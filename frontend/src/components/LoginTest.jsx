@@ -3,64 +3,161 @@ import { useAuth } from "../context/AuthContext";
 import "./login.css";
 
 export default function LoginTest() {
-  console.log("Rendering LoginTest");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
   const { login } = useAuth();
 
-  useEffect(() => {
-    console.log("useAuth returned:", { login }); // Vérifie si login est défini au montage
-  }, [login]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Form submitted, HandleLogin triggered with:", { email, password });
-    if (!login) {
-      console.error("Login function is undefined from useAuth during submission");
-      setError("Erreur interne : fonction de connexion non disponible.");
-      return;
-    }
+    setError("");
+    
     if (!email || !password) {
       setError("Veuillez remplir tous les champs.");
       return;
     }
+    
     try {
-      console.log("Attempting to call login function...");
       const result = await login(email, password);
-      console.log("Login result:", result);
       if (!result.success) {
-        console.log("Login failed with error:", result.error);
         setError(result.error);
-      } else {
-        console.log("Login succeeded, redirecting to /user");
       }
     } catch (err) {
-      console.error("Error in handleLogin:", err);
       setError("Une erreur s'est produite. Veuillez réessayer.");
     }
   };
 
-  const handleEmailChange = (e) => {
-    console.log("Email changed to:", e.target.value);
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    console.log("Password changed to:", e.target.value);
-    setPassword(e.target.value);
-  };
-
-  const handleFocus = (field) => {
-    console.log(`${field} input focused`);
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError("");
+    
+    if (!firstName || !lastName || !email || !password) {
+      setError("Veuillez remplir tous les champs obligatoires.");
+      return;
+    }
+    
+    try {
+      const result = await register({
+        firstName,
+        lastName,
+        email,
+        password,
+        phone
+      });
+      
+      if (!result.success) {
+        setError(result.error);
+      }
+    } catch (err) {
+      setError("Une erreur s'est produite lors de l'inscription.");
+    }
   };
 
   return (
     <div>
       <div className="background-anim"></div>
       <div className="login-container">
-        <h2>Test de Connexion</h2>
-        <form className="login-form" onSubmit={handleLogin}>
+        <h2>{isRegistering ? "Inscription" : "Connexion"}</h2>
+        
+        {isRegistering ? (
+          <form className="login-form" onSubmit={handleRegister}>
+            <input
+              className="login-input"
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="Prénom"
+              required
+            />
+            <input
+              className="login-input"
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Nom"
+              required
+            />
+            <input
+              className="login-input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              required
+            />
+            <input
+              className="login-input"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Téléphone (optionnel)"
+            />
+            <input
+              className="login-input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Mot de passe"
+              required
+            />
+            <button type="submit" className="login-button">
+              S'inscrire
+            </button>
+          </form>
+        ) : (
+          <form className="login-form" onSubmit={handleLogin}>
+            <input
+              className="login-input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              required
+            />
+            <input
+              className="login-input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Mot de passe"
+              required
+            />
+            <button type="submit" className="login-button">
+              Se connecter
+            </button>
+          </form>
+        )}
+        
+        <div className="mt-4 text-center">
+          <button
+            type="button"
+            onClick={() => {
+              setIsRegistering(!isRegistering);
+              setError("");
+            }}
+            className="text-blue-600 hover:text-blue-800 underline"
+          >
+            {isRegistering ? "Déjà un compte ? Se connecter" : "Pas de compte ? S'inscrire"}
+          </button>
+        </div>
+        
+        {/* Comptes de test */}
+        <div className="mt-4 p-3 bg-gray-100 rounded text-sm">
+          <p className="font-semibold">Comptes de test :</p>
+          <p>Admin: admin@test.com / password123</p>
+          <p>Client: client@test.com / password123</p>
+        </div>
+        
+        {error && <p className="error-message">{error}</p>}
+      </div>
+    </div>
+  );
+}
           <input
             className="login-input"
             type="email"
