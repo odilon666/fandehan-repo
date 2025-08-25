@@ -33,13 +33,13 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const res = await API.post('/auth/login', { email, password });
-      const token = res.data.token;
+      const { token, data } = res.data;
       localStorage.setItem('token', token);
       API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      setUser(res.data.data);
+      setUser(data);
       
       // Redirection basée sur le rôle
-      if (res.data.data.role === 'admin') {
+      if (data.role === 'admin') {
         navigate('/admin');
       } else {
         navigate('/user');
@@ -55,10 +55,10 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const res = await API.post('/auth/register', userData);
-      const token = res.data.token;
+      const { token, data } = res.data;
       localStorage.setItem('token', token);
       API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      setUser(res.data.data);
+      setUser(data);
       navigate('/user');
       return { success: true };
     } catch (err) {

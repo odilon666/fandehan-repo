@@ -17,12 +17,14 @@ import UserProfile from "./components/user/EditProfile";
 import SupportClient from "./components/user/SupportClient";
 import SupportForm from "./components/SupportForm";
 import LoginTest from "./components/LoginTest";
+
 const NotFound = () => <div>Page non trouvée</div>;
 
 export default function App() {
   return (
     <Routes>
       <Route path="/login-test" element={<LoginTest />} />
+      <Route path="/" element={<LoginTest />} />
       <Route
         path="/admin/*"
         element={
@@ -54,7 +56,7 @@ export default function App() {
         <Route path="payment" element={<UserPayment />} />
         <Route path="profile" element={<UserProfile />} />
         <Route path="support" element={<SupportClient />} />
-      </Route>a
+      </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

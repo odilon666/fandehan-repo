@@ -17,7 +17,7 @@ export default function SupportClient() {
     setStatus("Envoi en cours...");
 
     try {
-      const res = await fetch("http://localhost:5000/api/support", {
+      const res = await fetch("http://localhost:3000/api/support/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

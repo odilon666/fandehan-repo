@@ -1,19 +1,22 @@
 // src/components/Sidebar.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
 
 export default function Sidebar() {
-  const [active, setActive] = useState("/"); // "/" par défaut
+  const location = useLocation();
+  const { logout } = useAuth();
 
   const menuItems = [
-    { name: "Dashboard", path: "/" },
-    { name: "Gestion des Engins", path: "/engines" },
-    { name: "Réservations", path: "/reservations" },
-    { name: "Utilisateurs", path: "/users" },
-    { name: "Rapports", path: "/reports" },
-    { name: "Maintenance", path: "/maintenance" },
-    { name: "Paiement", path: "/payment" },
+    { name: "Dashboard", path: "/admin" },
+    { name: "Gestion des Engins", path: "/admin/engines" },
+    { name: "Réservations", path: "/admin/reservations" },
+    { name: "Utilisateurs", path: "/admin/users" },
+    { name: "Rapports", path: "/admin/reports" },
+    { name: "Maintenance", path: "/admin/maintenance" },
+    { name: "Paiement", path: "/admin/payment" },
+    { name: "Support", path: "/admin/support" },
   ];
 
   return (
@@ -44,9 +47,8 @@ export default function Sidebar() {
             <Link
               key={item.path}
               to={item.path}
-              onClick={() => setActive(item.path)}
               className={`px-4 py-2 rounded-lg transition-colors duration-200 
-                ${active === item.path ? "bg-green-500 text-white" : "hover:bg-gray-700"}`}
+                ${location.pathname === item.path ? "bg-green-500 text-white" : "hover:bg-gray-700"}`}
             >
               {item.name}
             </Link>
@@ -57,6 +59,7 @@ export default function Sidebar() {
       {/* Bouton Déconnexion en bas */}
       <div className="mt-6">
         <button
+          onClick={logout}
           className="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-200"
         >
           Déconnexion

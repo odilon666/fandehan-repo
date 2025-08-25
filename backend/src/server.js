@@ -34,7 +34,12 @@ app.use(helmet());
 
 // 🔑 IMPORTANT : autoriser ton frontend Vite (par défaut http://localhost:5173)
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: [
+    process.env.FRONTEND_URL || 'http://localhost:5173',
+    'http://localhost:3001',
+    'http://127.0.0.1:5173',
+    'http://localhost:5174'
+  ],
   credentials: true,
   optionsSuccessStatus: 200
 }));
@@ -44,7 +49,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // Webhook Stripe (avant express.json pour raw)
-app.use('/api/webhooks/stripe', express.raw({ type: 'application/json' }));
+app.use('/api/payments/webhook', express.raw({ type: 'application/json' }));
 
 // --- Routes ---
 app.use('/api/auth', authRoutes);
@@ -55,7 +60,6 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/support', supportRoutes);
-app.use("/api/support", supportRoutes);
 
 // Route de test
 app.get('/api/health', (req, res) => {

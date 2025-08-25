@@ -58,7 +58,10 @@ router.post('/register', validate('register'), async (req, res) => {
       message: 'Compte créé avec succès. Vérifiez votre email pour activer votre compte.',
       token,
       expiresIn: process.env.JWT_EXPIRE,
-      data: user.toPublicJSON()
+      data: {
+        ...user.toPublicJSON(),
+        role: user.role
+      }
     });
 
   } catch (error) {
@@ -92,7 +95,10 @@ router.post('/login', validate('login'), async (req, res) => {
       message: 'Connexion réussie',
       token,
       expiresIn: process.env.JWT_EXPIRE,
-      data: user.toPublicJSON()
+      data: {
+        ...user.toPublicJSON(),
+        role: user.role
+      }
     });
 
   } catch (error) {

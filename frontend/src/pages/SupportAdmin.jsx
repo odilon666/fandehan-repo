@@ -7,7 +7,11 @@ export default function SupportAdmin() {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/support");
+        const res = await fetch("http://localhost:3000/api/support/messages", {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
         const data = await res.json();
         setTickets(data);
       } catch (error) {

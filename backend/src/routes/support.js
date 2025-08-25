@@ -394,7 +394,7 @@ router.get('/faq', async (req, res) => {
 
 
 // POST /api/support → enregistre un message de support
-router.post("/", async (req, res) => {
+router.post("/messages", async (req, res) => {
   try {
     const { name, email, message } = req.body;
 
@@ -413,7 +413,7 @@ router.post("/", async (req, res) => {
 });
 
 // (optionnel) GET /api/support → récupère tous les messages (pour admin)
-router.get("/", async (req, res) => {
+router.get("/messages", authenticate, authorize('admin'), async (req, res) => {
   try {
     const messages = await SupportMessage.find().sort({ createdAt: -1 });
     res.json(messages);

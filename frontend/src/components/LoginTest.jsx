@@ -10,7 +10,7 @@ export default function LoginTest() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const { login } = useAuth();
+  const { login, register } = useAuth();
 
 
   const handleLogin = async (e) => {
