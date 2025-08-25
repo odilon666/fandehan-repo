@@ -1,0 +1,158 @@
+/* Styles généraux pour le body (fond animé et centrage) */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Effet de fond animé (pulsation subtile) */
+.background-anim {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+  animation: pulse 8s infinite ease-in-out;
+  z-index: -1; /* En arrière-plan pour ne pas bloquer les interactions */
+  pointer-events: none; /* Ne capture pas les clics */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Conteneur principal (carte avec animation d'entrée) */
+.login-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem 3rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+  z-index: 10; /* Au-dessus du fond */
+  pointer-events: auto; /* Assure l'interaction */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Titre avec effet de survol */
+.login-container h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.login-container h2:hover {
+  color: #6e8efb;
+}
+
+/* Formulaire (flex pour centrage) */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Champs d'entrée avec focus animé */
+.login-input {
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 25px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  pointer-events: auto; /* Assure l'interaction */
+}
+
+.login-input:focus {
+  border-color: #6e8efb;
+  box-shadow: 0 0 10px rgba(110, 142, 251, 0.5);
+  transform: scale(1.02);
+}
+
+/* Bouton de soumission avec animation hover et active */
+.login-button {
+  padding: 12px;
+  background: linear-gradient(90deg, #6e8efb, #a777e3);
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  pointer-events: auto; /* Assure l'interaction */
+}
+
+.login-button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #5d7de9, #9266d0);
+  box-shadow: 0 0 15px rgba(110, 142, 251, 0.5);
+}
+
+.login-button:active {
+  transform: scale(0.98);
+  background: linear-gradient(90deg, #4a6bd7, #7f55bd);
+}
+
+/* Message d'erreur avec animation de secousse */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+}
+
+/* Responsive design pour mobiles */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 1.5rem 2rem;
+    margin: 1rem;
+  }
+
+  .login-input, .login-button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .login-container h2 {
+    font-size: 1.5rem;
+  }
+}
